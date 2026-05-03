@@ -1,0 +1,423 @@
+:root {
+    /* --- 3D CLAY THEME PALETTE --- */
+    
+    /* Background: Soft Pastel Blue-Grey */
+    --main-bg-color: #E0E5EC;
+    
+    /* The "Clay" Object Color (Base White/Grey) */
+    --clay-bg: #F0F3F9;
+    
+    /* Shadows for the 3D Effect */
+    /* Light source top-left */
+    --shadow-light: inset 10px 10px 20px rgba(255, 255, 255, 1), 
+                    inset -5px -5px 15px rgba(0,0,0,0.05),
+                    20px 20px 40px rgba(163, 177, 198, 0.4);
+                    
+    --shadow-pressed: inset 5px 5px 10px rgba(163, 177, 198, 0.5), 
+                      inset -5px -5px 10px rgba(255, 255, 255, 0.9);
+
+    /* Text */
+    --text-main: #4a5568;
+    --text-highlight: #667eea;
+    
+    /* Accents (Bright 3D Plastics) */
+    --accent-primary: #7F00FF; /* Purple */
+    --accent-secondary: #00D2FF; /* Cyan */
+    
+    --sidebar-width: 270px;
+    --border-radius: 35px; /* Very round corners for "Soft" look */
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background-color: var(--main-bg-color);
+    color: var(--text-main);
+    height: 100vh;
+    overflow: hidden;
+    perspective: 1000px; /* Essential for 3D elements */
+}
+
+/* --- 3D FLOATING BACKGROUND CUBES --- */
+.background-shapes {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    overflow: hidden;
+}
+
+.cube {
+    position: absolute;
+    background: linear-gradient(135deg, var(--accent-secondary), var(--accent-primary));
+    border-radius: 30px;
+    box-shadow: 20px 20px 60px rgba(0,0,0,0.1);
+    opacity: 0.8;
+    animation: float3D 10s infinite ease-in-out alternate;
+}
+
+/* Creating a fake 3D volume using gradient & shadow */
+.cube::after {
+    content: '';
+    position: absolute;
+    top: 10px; left: 10px; right: 10px; bottom: 10px;
+    background: rgba(255,255,255,0.3);
+    border-radius: 20px;
+    filter: blur(5px);
+}
+
+.cube-1 { width: 150px; height: 150px; top: 10%; left: 5%; animation-delay: 0s; transform: rotate(15deg); }
+.cube-2 { width: 100px; height: 100px; bottom: 15%; right: 10%; animation-delay: -2s; background: #FF0099; transform: rotate(-20deg); }
+.cube-3 { width: 80px; height: 80px; top: 40%; left: 45%; animation-delay: -5s; background: #FFD700; transform: rotate(45deg); opacity: 0.6; }
+
+@keyframes float3D {
+    0% { transform: translateY(0) rotate(0deg) scale(1); }
+    100% { transform: translateY(-40px) rotate(10deg) scale(1.1); }
+}
+
+/* --- LAYOUT --- */
+.dashboard-container {
+    display: flex;
+    height: 100vh;
+    padding: 30px;
+    gap: 40px;
+}
+
+/* --- CLAY MORPHISM CARDS --- */
+/* This replaces .glass-card */
+.glass-card, .clay-card {
+    background: var(--clay-bg);
+    border-radius: var(--border-radius);
+    /* The Clay Effect: Inner light + Outer Shadow */
+    box-shadow: var(--shadow-light);
+    border: 2px solid rgba(255,255,255,0.4);
+    transition: transform 0.3s ease;
+}
+
+/* Hover effect: Lifts up towards the user */
+.glass-card:hover {
+    transform: translateY(-5px) scale(1.005);
+}
+
+/* --- SIDEBAR --- */
+.sidebar {
+    width: var(--sidebar-width);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 40px 30px;
+    z-index: 10;
+}
+
+.brand {
+    font-size: 28px;
+    font-weight: 900;
+    margin-bottom: 50px;
+    color: var(--accent-primary);
+    text-shadow: 2px 2px 0px rgba(255,255,255,0.5);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.nav-links { list-style: none; flex-grow: 1; }
+.nav-links li { margin-bottom: 15px; }
+
+.nav-links a {
+    text-decoration: none;
+    color: var(--text-main);
+    display: flex;
+    align-items: center;
+    padding: 16px 20px;
+    border-radius: 20px;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+.nav-links a i { margin-right: 15px; width: 25px; text-align: center; }
+
+/* Active State: Looks "Pressed" into the clay */
+.nav-links li.active a {
+    background: var(--main-bg-color);
+    box-shadow: var(--shadow-pressed); /* Pressed In */
+    color: var(--accent-primary);
+    transform: translateY(2px);
+}
+
+.nav-links a:hover:not(.active a) {
+    background: white;
+    box-shadow: 5px 5px 15px rgba(163, 177, 198, 0.3);
+    color: var(--accent-primary);
+}
+
+.logout-section a {
+    text-decoration: none;
+    color: #FF6B6B;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    padding: 12px;
+}
+
+/* --- MAIN CONTENT --- */
+.main-content {
+    flex-grow: 1;
+    height: 100%;
+    overflow-y: auto;
+    padding-right: 15px;
+    /* Hide Scrollbar visually but allow scroll */
+    scrollbar-width: none; 
+}
+.main-content::-webkit-scrollbar { display: none; }
+
+/* Header */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
+}
+
+/* 3D Search Bar */
+.search-bar {
+    display: flex;
+    align-items: center;
+    padding: 15px 25px;
+    width: 450px;
+    border-radius: 50px;
+    background: var(--main-bg-color);
+    /* Deep "Carved" Look */
+    box-shadow: var(--shadow-pressed); 
+}
+
+.search-bar i { color: var(--accent-primary); margin-right: 15px; }
+.search-bar input {
+    background: transparent;
+    border: none;
+    color: var(--text-main);
+    width: 100%;
+    outline: none;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.user-menu { display: flex; align-items: center; gap: 30px; }
+
+.notification-icon {
+    font-size: 22px;
+    color: var(--text-main);
+    cursor: pointer;
+    transition: 0.2s;
+    /* Small 3D button */
+    padding: 12px;
+    border-radius: 50%;
+    background: var(--clay-bg);
+    box-shadow: 5px 5px 10px rgba(163, 177, 198, 0.4), -5px -5px 10px rgba(255,255,255, 0.8);
+}
+.notification-icon:hover { 
+    transform: translateY(-2px); 
+    color: var(--accent-primary);
+}
+.notification-icon:active {
+    box-shadow: var(--shadow-pressed);
+    transform: translateY(2px);
+}
+
+.avatar {
+    width: 55px;
+    height: 55px;
+    border-radius: 20px;
+    border: 4px solid var(--clay-bg);
+    box-shadow: 5px 5px 15px rgba(0,0,0,0.1);
+    cursor: pointer;
+}
+
+/* --- WIDGETS --- */
+.widget-grid {
+    display: grid;
+    grid-template-columns: 2fr 1.2fr;
+    gap: 35px;
+    padding-bottom: 40px;
+}
+
+.widget { padding: 40px; }
+
+.widget-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+/* 1. Welcome Widget */
+.welcome-widget {
+    background: linear-gradient(135deg, #F0F3F9 0%, #E6E9F0 100%);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.welcome-text h1 {
+    font-size: 38px;
+    margin-bottom: 10px;
+    color: var(--accent-primary);
+    /* Text pop effect */
+    text-shadow: 2px 4px 6px rgba(0,0,0,0.05); 
+}
+
+.welcome-text p { color: var(--text-main); margin-bottom: 25px; font-size: 1.1rem;}
+
+/* The 3D Action Button */
+.btn-primary, .save-trigger {
+    background: var(--accent-primary);
+    border: none;
+    padding: 15px 35px;
+    color: white;
+    border-radius: 50px;
+    font-weight: 700;
+    cursor: pointer;
+    /* 3D Button Styling */
+    box-shadow: 
+        0px 10px 20px rgba(127, 0, 255, 0.3), /* Drop shadow */
+        inset 0px 4px 4px rgba(255,255,255,0.4), /* Top highlight */
+        inset 0px -4px 4px rgba(0,0,0,0.2); /* Bottom shade */
+    transition: all 0.1s;
+}
+
+.btn-primary:active, .save-trigger:active {
+    transform: translateY(4px); /* Physically moves down */
+    box-shadow: 0px 2px 10px rgba(127, 0, 255, 0.3); /* Shadow shrinks */
+}
+
+/* 2. Profile Widget (Carved Inputs) */
+.profile-widget h3 { color: var(--text-main); font-weight: 700; }
+
+.cred-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    background: var(--main-bg-color);
+    padding: 12px 18px;
+    border-radius: 20px;
+    /* Deep Carved Effect */
+    box-shadow: var(--shadow-pressed);
+    border: 1px solid rgba(255,255,255,0.1);
+    transition: all 0.3s ease;
+}
+
+.cred-item:focus-within {
+    /* When typing, light up the "hole" */
+    box-shadow: inset 2px 2px 5px rgba(0,0,0,0.1), inset -2px -2px 5px rgba(255,255,255,1), 0 0 0 3px var(--accent-secondary);
+}
+
+.cred-icon {
+    width: 45px;
+    height: 45px;
+    background: var(--clay-bg);
+    color: var(--accent-secondary);
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 15px;
+    font-size: 18px;
+    /* Pop OUT icon inside pressed IN input */
+    box-shadow: 5px 5px 10px rgba(163, 177, 198, 0.3), -5px -5px 10px rgba(255,255,255, 0.8);
+}
+
+.cred-info { flex-grow: 1; }
+.cred-info small { display: block; color: #a0aec0; font-size: 11px; font-weight: 700; margin-bottom: 4px; text-transform: uppercase;}
+
+.cred-input {
+    width: 100%;
+    background: transparent;
+    border: none;
+    outline: none;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-main);
+}
+
+.icon-btn {
+    background: transparent; border: none; cursor: pointer; color: #a0aec0; padding: 5px;
+}
+.icon-btn:hover { color: var(--accent-primary); }
+
+.save-trigger {
+    background: #00D2FF; /* Cyan button */
+    box-shadow: 0px 10px 20px rgba(0, 210, 255, 0.3), inset 0px 4px 4px rgba(255,255,255,0.4), inset 0px -4px 4px rgba(0,0,0,0.2);
+    font-size: 12px; padding: 10px 20px;
+}
+
+/* 3. Gallery Entry Widget (Perspective Tilt) */
+.widget-full-width { grid-column: 1 / -1; }
+
+.gallery-header h2 { color: var(--text-main); }
+.view-all-link { 
+    text-decoration: none; color: var(--accent-primary); font-weight: 700;
+}
+
+/* 3D Gallery Grid */
+.mini-gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 30px;
+    /* Set the stage for 3D */
+    perspective: 1000px; 
+}
+
+.mini-shot {
+    height: 220px;
+    border-radius: 25px;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    cursor: pointer;
+    /* Makes them look like thick physical cards */
+    box-shadow: 15px 15px 30px rgba(163, 177, 198, 0.4), -10px -10px 20px rgba(255,255,255, 0.8);
+    border: 5px solid var(--clay-bg); 
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* The 3D Tilt Hover */
+.mini-shot:hover {
+    transform: rotateX(10deg) translateY(-15px) scale(1.05);
+    z-index: 5;
+    box-shadow: 25px 25px 50px rgba(163, 177, 198, 0.5);
+}
+
+.add-shot-placeholder {
+    background: var(--clay-bg);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-main);
+    gap: 10px;
+    /* "Pressed" placeholder */
+    box-shadow: var(--shadow-pressed);
+    border: none;
+}
+.add-shot-placeholder i { font-size: 32px; color: #a0aec0; }
+.add-shot-placeholder:hover { transform: none; box-shadow: var(--shadow-light); } /* Pop out on hover */
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .widget-grid { grid-template-columns: 1fr; }
+    .search-bar { width: auto; flex-grow: 1; margin-right: 20px;}
+}
+
+@media (max-width: 768px) {
+    .dashboard-container { flex-direction: column; padding: 15px; height: auto; overflow-y: auto;}
+    .sidebar { width: 100%; height: auto; padding: 25px; flex-direction: row; justify-content: space-between; align-items: center; background: var(--clay-bg); box-shadow: var(--shadow-light); margin-bottom: 20px;}
+    .nav-links, .logout-section { display: none; }
+    header { margin-top: 0; flex-direction: column-reverse; gap: 20px; align-items: stretch;}
+    .user-menu { justify-content: flex-end; }
+    body { height: auto; overflow: auto; }
+}
