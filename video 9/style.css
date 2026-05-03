@@ -1,0 +1,19 @@
+.red {
+    color: aquamarine;
+}
+
+.bg-yellow{
+    background-color: yellow;
+}
+
+#firstdiv {
+    background-color: red;
+}
+
+#seconddiv {
+    background-color: blue;
+}
+
+/* . represents class
+# represents :id  */
+
