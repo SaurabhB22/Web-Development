@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Selectors</title>
+    <style>
+        /* element selector */
+         div{
+            background-color: blueviolet;
+         }
+         /* class selector */
+         .color{
+            background-color: aquamarine;
+         }
+         /* id selector */
+         #sas{
+            background-color: brown;
+         }
+         /* child selector */
+         div>p{
+            color: darkblue;
+            background-color: bisque;
+         }
+         /* Descendent selector */
+         div p{
+            color: darkblue;
+            background-color: bisque;
+         }
+         /* universal selector */
+         *{
+            margin: 0;
+            padding: 0;
+         }
+         /* pseudo selector */
+         a :visited{
+            color: black;
+         }
+
+         a:link{
+            color: orangered;
+         }
+         
+         a:active{
+            color: darkgoldenrod;
+         }
+
+         a:hover{
+            background-color: blueviolet;
+         }
+         
+         p:first-child{
+            background-color:aquamarine;
+         }
+
+    </style>
+</head>
+<body>
+    <div>
+        I am a div 
+        <p>
+            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Repellat possimus adipisci vitae commodi. Eos, quam beatae autem, itaque asperiores iusto, consequatur saepe quod id incidunt aut quasi harum neque laborum.
+        </p>
+    </div>
+    <div class="color">
+        I am also div 
+    </div>
+    <div id="sas">
+        I am third div 
+    </div>
+    <a href="https://www.google.com">Go to Google</a>
+</body>
+</html>
